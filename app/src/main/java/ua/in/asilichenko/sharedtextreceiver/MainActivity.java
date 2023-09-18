@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
     if (Intent.ACTION_SEND.equals(action)) {
       final String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
       if (null != stringExtra) {
-        log("Intent String Extra: " + stringExtra);
+        log("Received text: " + stringExtra);
         intent.removeExtra(Intent.EXTRA_TEXT);
       } else {
-        log("Intent String Extra is empty.");
+        log("Received text is empty.");
       }
     } else {
       log("Intent Action: " + action);
