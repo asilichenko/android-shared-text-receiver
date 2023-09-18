@@ -22,7 +22,13 @@ public class MainActivity extends AppCompatActivity {
     final Intent intent = getIntent();
     final String action = intent.getAction();
     if (Intent.ACTION_SEND.equals(action)) {
-      log("Intent String Extra: " + intent.getStringExtra(Intent.EXTRA_TEXT));
+      final String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
+      if (null != stringExtra) {
+        log("Intent String Extra: " + stringExtra);
+        intent.removeExtra(Intent.EXTRA_TEXT);
+      } else {
+        log("Intent String Extra is empty.");
+      }
     } else {
       log("Intent Action: " + action);
     }
