@@ -1,5 +1,7 @@
 # Shared Text Receiver
 
+<img src="https://github.com/asilichenko/android-shared-text-receiver/assets/1503214/e8dc4351-4c97-4593-8f42-4603aefe7da0" width="480"/>
+
 First of all, we need to register our app as the plain text receiver by adding the intent filter into the _Manifest_ for a certain activity:
 ```
 <intent-filter>
@@ -24,7 +26,7 @@ This code can be called either from the _onCreate_ method if we expect to receiv
 
 However, there is an issue when the app is called from the background - **sometimes** we receive the _android.intent.action.MAIN_ action instead of _SEND_, and the extra is empty. But why does this happen? When does "**sometimes**" occur? Let's explore this issue.
 
-**Test case #1**
+## Test case #1
 
 1. Our app is shut down
 1. Open Web-browser
@@ -38,7 +40,7 @@ However, there is an issue when the app is called from the background - **someti
 
 Nothing odd so far. Let's take a look Test case #2:
 
-**Test case #2**
+## Test case #2
 
 1. Our app is shut down
 1. Start the app
@@ -98,7 +100,7 @@ protected void onNewIntent(Intent intent) {
 ```
 Now, both test cases works fine, but I found another bug.
 
-**Test case #3**
+## Test case #3
 
 1. Our app is in the background
 1. Open Web-browser
@@ -117,6 +119,27 @@ To fix this, we need to set launchMode for the main activity to "_singleTask_":
 ```
 In this mode, if there is already an existing instance of the activity in the system, a new one will not be created, and the existing one will be called.
 
+ Let's check one more case.
+
+## Test case #4
+
+1. Share data into our app
+1. Data is received
+1. Rotate the device
+1. The same data is received again
+
+This happens because when the Android device is rotated, it recreates the activity, but the intent remains the same. As a result, the processing of shared text in the onCreate method is triggered again, and the read data is also re-read.
+
+To avoid re-reading the data, you need to remove them from the intent using the removeExtra method:
+```
+if (Intent.ACTION_SEND.equals(action)) {
+  final String stringExtra = intent.getStringExtra(Intent.EXTRA_TEXT);
+  if (null != stringExtra) {
+    ...
+    intent.removeExtra(Intent.EXTRA_TEXT);
+  }
+}
+```
 # Source code
 * [MainActivity.java](app/src/main/java/ua/in/asilichenko/sharedtextreceiver/MainActivity.java)
 * [AndroidManifest.xml](app/src/main/AndroidManifest.xml)
