@@ -1,5 +1,7 @@
 # Shared Text Receiver
 
+<img src="https://github.com/asilichenko/android-shared-text-receiver/assets/1503214/e8dc4351-4c97-4593-8f42-4603aefe7da0" width="480"/>
+
 First of all, we need to register our app as the plain text receiver by adding the intent filter into the _Manifest_ for a certain activity:
 ```
 <intent-filter>
