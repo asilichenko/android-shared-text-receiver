@@ -38,8 +38,7 @@ However, there is an issue when the app is called from the background - **someti
 1. Share link again
 1. The _onResume_ method is called this time, and the data can be received.
 
-
-!(Android activity lifecycle: Test case #1)[docs/uml/img/test_case_1.png]
+![Android activity lifecycle: Test case #1](docs/uml/img/test_case_1.png)
 
 Nothing odd so far. Let's take a look Test case #2:
 
@@ -51,6 +50,8 @@ Nothing odd so far. Let's take a look Test case #2:
 1. Open the Web-browser
 1. Share link to the app
 1. The _onResume_ method is called, but this time we got no data
+
+![Android activity lifecycle: Test case #2](docs/uml/img/test_case_2.png)
 
 Let's look into the logs, there we can see a pair of interesting records:
 ```
@@ -101,6 +102,8 @@ protected void onNewIntent(Intent intent) {
   receiveText();
 }
 ```
+![Android activity lifecycle: Test case #2. Fix](docs/uml/img/test_case_2_fix.png)
+
 Now, both test cases works fine, but I found another bug.
 
 ## Test case #3
@@ -110,6 +113,8 @@ Now, both test cases works fine, but I found another bug.
 1. Share a link
 1. The app is opened
 1. Method _onCreate_ is called
+
+![Android activity lifecycle: Test case #3](docs/uml/img/test_case_3.png)
 
 Now, if we look in the background stack, we can see two instances of our app, and that's not good.
 
@@ -122,7 +127,9 @@ To fix this, we need to set launchMode for the main activity to "_singleTask_":
 ```
 In this mode, if there is already an existing instance of the activity in the system, a new one will not be created, and the existing one will be called.
 
- Let's check one more case.
+![Android activity lifecycle: Test case #3. Fix](docs/uml/img/test_case_3_fix.png)
+
+Let's check one more case.
 
 ## Test case #4
 
@@ -130,6 +137,8 @@ In this mode, if there is already an existing instance of the activity in the sy
 1. Data is received
 1. Rotate the device
 1. The same data is received again
+
+![Android activity lifecycle: Test case #4](docs/uml/img/test_case_4.png)
 
 This happens because when the Android device is rotated, it recreates the activity, but the intent remains the same. As a result, the processing of shared text in the onCreate method is triggered again, and the read data is also re-read.
 
@@ -143,6 +152,9 @@ if (Intent.ACTION_SEND.equals(action)) {
   }
 }
 ```
+![Android activity lifecycle: Test case #4. Fix](docs/uml/img/test_case_4_fix.png)
+
 # Source code
 * [MainActivity.java](app/src/main/java/ua/in/asilichenko/sharedtextreceiver/MainActivity.java)
 * [AndroidManifest.xml](app/src/main/AndroidManifest.xml)
+* [UML Diagrams](docs/uml) were created by https://sequencediagram.org
