@@ -138,9 +138,9 @@ Let's check one more case.
 1. Rotate the device
 1. The same data is received again
 
-![Android activity lifecycle: Test case #4](docs/uml/img/test_case_4.png)
-
 This happens because when the Android device is rotated, it recreates the activity, but the intent remains the same. As a result, the processing of shared text in the onCreate method is triggered again, and the read data is also re-read.
+
+![Android activity lifecycle: Test case #4](docs/uml/img/test_case_4.png)
 
 To avoid re-reading the data, you need to remove them from the intent using the removeExtra method:
 ```
