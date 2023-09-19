@@ -62,4 +62,10 @@ public class MainActivity extends AppCompatActivity {
     super.onResume();
     log("onResume");
   }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    log("onDestroy");
+  }
 }
