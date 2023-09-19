@@ -38,6 +38,9 @@ However, there is an issue when the app is called from the background - **someti
 1. Share link again
 1. The _onResume_ method is called this time, and the data can be received.
 
+
+!(Android activity lifecycle: Test case #1)[docs/uml/img/test_case_1.png]
+
 Nothing odd so far. Let's take a look Test case #2:
 
 ## Test case #2
