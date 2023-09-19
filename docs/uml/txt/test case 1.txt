@@ -1,0 +1,29 @@
+actor #green:0.5 User
+fontawesome f268 Web-browser #1da1f2
+participant Receiver
+
+User->Web-browser:Start
+activate Web-browser
+User->Web-browser:Share
+activate Web-browser
+Web-browser->Receiver:Send
+deactivate Web-browser
+deactivate Web-browser
+activate Receiver
+Receiver->Receiver:onCreate
+activate Receiver
+Receiver->Receiver:receiveText
+
+User->Web-browser:Open
+deactivate Receiver
+deactivate Receiver
+activate Web-browser
+User->Web-browser:Share
+activate Web-browser
+Web-browser->Receiver:Send
+deactivate Web-browser
+deactivate Web-browser
+activate Receiver
+Receiver->Receiver:onResume
+activate Receiver
+Receiver->Receiver:receiveText
